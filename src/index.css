@@ -1,0 +1,346 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cross-browser compatibility fixes */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for content areas */
+p, h1, h2, h3, h4, h5, h6, span, div, a, button, input, textarea, select {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Prevent text size adjustment on mobile */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Prevent user drag on images */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Custom animations for responsive design */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Custom utility classes */
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 1.5s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+.animate-pop {
+  animation: pop 0.5s ease-out;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus states for accessibility */
+*:focus {
+  outline: 2px solid #1aaf9b;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1aaf9b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #008979;
+}
+
+/* Mobile-first responsive typography */
+.text-responsive-xs {
+  font-size: 0.75rem;
+}
+
+.text-responsive-sm {
+  font-size: 0.875rem;
+}
+
+.text-responsive-base {
+  font-size: 1rem;
+}
+
+.text-responsive-lg {
+  font-size: 1.125rem;
+}
+
+.text-responsive-xl {
+  font-size: 1.25rem;
+}
+
+.text-responsive-2xl {
+  font-size: 1.5rem;
+}
+
+.text-responsive-3xl {
+  font-size: 1.875rem;
+}
+
+.text-responsive-4xl {
+  font-size: 2.25rem;
+}
+
+.text-responsive-5xl {
+  font-size: 3rem;
+}
+
+@media (min-width: 640px) {
+  .text-responsive-xs {
+    font-size: 0.875rem;
+  }
+  
+  .text-responsive-sm {
+    font-size: 1rem;
+  }
+  
+  .text-responsive-base {
+    font-size: 1.125rem;
+  }
+  
+  .text-responsive-lg {
+    font-size: 1.25rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.5rem;
+  }
+  
+  .text-responsive-2xl {
+    font-size: 1.875rem;
+  }
+  
+  .text-responsive-3xl {
+    font-size: 2.25rem;
+  }
+  
+  .text-responsive-4xl {
+    font-size: 3rem;
+  }
+  
+  .text-responsive-5xl {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-responsive-xs {
+    font-size: 1rem;
+  }
+  
+  .text-responsive-sm {
+    font-size: 1.125rem;
+  }
+  
+  .text-responsive-base {
+    font-size: 1.25rem;
+  }
+  
+  .text-responsive-lg {
+    font-size: 1.5rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.875rem;
+  }
+  
+  .text-responsive-2xl {
+    font-size: 2.25rem;
+  }
+  
+  .text-responsive-3xl {
+    font-size: 3rem;
+  }
+  
+  .text-responsive-4xl {
+    font-size: 3.75rem;
+  }
+  
+  .text-responsive-5xl {
+    font-size: 4.5rem;
+  }
+}
+
+/* Touch-friendly sizing for mobile */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, select {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

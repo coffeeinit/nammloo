@@ -1,0 +1,31 @@
+# LLMs.txt - AI/LLM Information for Kottravai
+
+## About This Site
+- Site: https://kottravai.in
+- Purpose: E-commerce platform supporting rural women artisans
+- Content: Handcrafted products, women empowerment stories, sustainable crafts
+
+## AI/LLM Usage Policy
+- Content Generation: Human-written content only
+- Product Descriptions: Written by team members and artisans
+- Customer Support: Human customer service representatives
+- No AI-generated content used on this website
+
+## Contact for AI/LLM Inquiries
+- Email: ai@kottravai.in
+- Subject: "LLM/AI Usage Inquiry"
+- Response Time: Within 48 hours
+
+## Data Usage
+- No training data collected from user interactions
+- No AI models trained on user data
+- Privacy-first approach maintained
+
+## Last Updated
+- Date: 2025-01-15
+- Version: 1.0
+
+## Additional Information
+- This site focuses on human stories and authentic craftsmanship
+- All product descriptions are verified by artisans
+- No automated content generation used 

@@ -1,0 +1,23 @@
+# Cache control for static assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# SVG files should be served with correct content-type
+*.svg
+  Content-Type: image/svg+xml
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files
+*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JavaScript and CSS files
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# API routes (if any)
+/api/*
+  Cache-Control: no-cache, no-store, must-revalidate 

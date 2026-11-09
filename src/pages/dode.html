@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammaloo - Find Toilets Near You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #191c5d;
+            --primary-teal: #1aaf9b;
+            --primary-red: #ed1b24;
+            --accent-yellow: #ffcb05;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--primary-teal);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-teal);
+        }
+
+        .main-content {
+            margin-top: 100px;
+            padding: 20px 0 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .location-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .location-btn {
+            background-color: var(--primary-red);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            margin: 0 auto;
+        }
+
+        .location-btn:hover {
+            background-color: #c2171f;
+            transform: translateY(-2px);
+        }
+
+        .location-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(26, 175, 155, 0.1);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary-teal);
+            display: none;
+        }
+
+        .error-message {
+            background-color: rgba(237, 27, 36, 0.1);
+            border-left: 4px solid var(--primary-red);
+            color: var(--primary-red);
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .map-container {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            height: 500px;
+        }
+
+        #mapFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .toilets-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .toilet-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .toilet-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .toilet-image {
+            height: 180px;
+            background-color: var(--primary-teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 48px;
+        }
+
+        .toilet-details {
+            padding: 20px;
+        }
+
+        .toilet-name {
+            font-size: 20px;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .toilet-address {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .toilet-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .toilet-distance, .toilet-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .toilet-distance {
+            color: var(--primary-teal);
+        }
+
+        .toilet-rating {
+            color: var(--accent-yellow);
+        }
+
+        .toilet-features {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background-color: rgba(26, 175, 155, 0.1);
+            color: var(--primary-teal);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .view-details-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 0;
+            border-radius: var(--radius);
+            width: 100%;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background-color: #0f1138;
+        }
+
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(26, 175, 155, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-teal);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .toilets-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">namma<span>loo</span></a>
+                <nav class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">Find Toilets Near You</h1>
+            
+            <section class="location-section">
+                <h2 class="section-title">Your Location</h2>
+                <button class="location-btn" id="getLocationBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 0 0-10 10c0 7 10 10 10 10 0 0 10-3 10-10A10 10 0 0 0 12 2"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    Find Toilets Near Me
+                </button>
+                
+                <div class="location-info" id="locationInfo">
+                    <p>Location found! Showing results for your area.</p>
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    <p>Unable to access your location. Please allow location access or try again.</p>
+                </div>
+            </section>
+            
+            <section class="map-container">
+                <iframe id="mapFrame" src="" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </section>
+            
+            <div id="toiletsContainer">
+                <h2 class="section-title">Nearby Toilets</h2>
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                </div>
+                <div class="toilets-list" id="toiletsList">
+                    <!-- Toilet cards will be generated here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">nammaloo</div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const getLocationBtn = document.getElementById('getLocationBtn');
+            const locationInfo = document.getElementById('locationInfo');
+            const errorMessage = document.getElementById('errorMessage');
+            const mapFrame = document.getElementById('mapFrame');
+            const toiletsList = document.getElementById('toiletsList');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            // Sample toilet data (in a real app, this would come from an API)
+            const sampleToilets = [
+                {
+                    id: 1,
+                    name: "Central Mall Restroom",
+                    address: "123 Main Street, City Center",
+                    distance: "0.5",
+                    rating: 4.2,
+                    features: ["Wheelchair Access", "Baby Changing", "Clean"],
+                    coordinates: { lat: 13.0827, lng: 80.2707 }
+                },
+                {
+                    id: 2,
+                    name: "City Park Public Toilet",
+                    address: "City Park, West Area",
+                    distance: "0.8",
+                    rating: 3.8,
+                    features: ["Free", "Attended", "24/7 Access"],
+                    coordinates: { lat: 13.0800, lng: 80.2750 }
+                },
+                {
+                    id: 3,
+                    name: "Train Station Restroom",
+                    address: "Central Station, East Wing",
+                    distance: "1.2",
+                    rating: 4.0,
+                    features: ["Paid", "Showers", "Luggage Storage"],
+                    coordinates: { lat: 13.0850, lng: 80.2800 }
+                }
+            ];
+            
+            // Show loading state
+            function showLoading() {
+                loadingIndicator.style.display = 'flex';
+                toiletsList.innerHTML = '';
+            }
+            
+            // Hide loading state
+            function hideLoading() {
+                loadingIndicator.style.display = 'none';
+            }
+            
+            // Display toilet cards
+            function displayToilets(toilets) {
+                toiletsList.innerHTML = '';
+                
+                toilets.forEach(toilet => {
+                    const toiletCard = document.createElement('div');
+                    toiletCard.className = 'toilet-card';
+                    
+                    // Generate star rating HTML
+                    let starsHtml = '';
+                    const fullStars = Math.floor(toilet.rating);
+                    const hasHalfStar = toilet.rating % 1 >= 0.5;
+                    
+                    for (let i = 0; i < fullStars; i++) {
+                        starsHtml += '<span>★</span>';
+                    }
+                    
+                    if (hasHalfStar) {
+                        starsHtml += '<span>☆</span>';
+                    }
+                    
+                    const remainingStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                    for (let i = 0; i < remainingStars; i++) {
+                        starsHtml += '<span>☆</span>';
+                    }
+                    
+                    // Generate features HTML
+                    const featuresHtml = toilet.features.map(feature => 
+                        `<span class="feature-tag">${feature}</span>`
+                    ).join('');
+                    
+                    toiletCard.innerHTML = `
+                        <div class="toilet-image">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 0 0-10 10c0 7 10 10 10 10 0 0 10-3 10-10A10 10 0 0 0 12 2"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="toilet-details">
+                            <h3 class="toilet-name">${toilet.name}</h3>
+                            <p class="toilet-address">${toilet.address}</p>
+                            <div class="toilet-meta">
+                                <div class="toilet-distance">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="10" r="8"/>
+                                        <polyline points="12 6 12 10 14 12"/>
+                                    </svg>
+                                    ${toilet.distance} km
+                                </div>
+                                <div class="toilet-rating">
+                                    ${starsHtml}
+                                    ${toilet.rating}
+                                </div>
+                            </div>
+                            <div class="toilet-features">
+                                ${featuresHtml}
+                            </div>
+                            <button class="view-details-btn" data-lat="${toilet.coordinates.lat}" data-lng="${toilet.coordinates.lng}">View Details & Directions</button>
+                        </div>
+                    `;
+                    
+                    toiletsList.appendChild(toiletCard);
+                });
+                
+                // Add event listeners to view details buttons
+                document.querySelectorAll('.view-details-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const lat = this.getAttribute('data-lat');
+                        const lng = this.getAttribute('data-lng');
+                        showDirections(lat, lng);
+                    });
+                });
+            }
+            
+            // Update map with user's location
+            function updateMap(lat, lng) {
+                const query = `${lat},${lng}+public+toilets`;
+                mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed&z=14`;
+            }
+            
+            // Show directions to a specific toilet
+            function showDirections(lat, lng) {
+                if (!userLocation) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Please enable location access first to get directions.';
+                    return;
+                }
+                
+                const query = `${userLocation.lat},${userLocation.lng}+to+${lat},${lng}`;
+                mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed&z=14`;
+            }
+            
+            let userLocation = null;
+            
+            // Get user's current location
+            getLocationBtn.addEventListener('click', function() {
+                showLoading();
+                locationInfo.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                if (!navigator.geolocation) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Geolocation is not supported by your browser.';
+                    hideLoading();
+                    return;
+                }
+                
+                function success(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    userLocation = { lat, lng };
+                    
+                    // Update the map
+                    updateMap(lat, lng);
+                    
+                    // Display sample toilets (in a real app, you would fetch based on location)
+                    displayToilets(sampleToilets);
+                    
+                    // Show success message
+                    locationInfo.style.display = 'block';
+                    hideLoading();
+                }
+                
+                function error() {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Unable to retrieve your location. Please allow location access.';
+                    hideLoading();
+                }
+                
+                navigator.geolocation.getCurrentPosition(success, error, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
+                });
+            });
+            
+            // Initially hide loading
+            hideLoading();
+        });
+    </script>
+</body>
+</html>
